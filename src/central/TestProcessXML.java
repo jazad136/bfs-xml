@@ -25,6 +25,13 @@ public class TestProcessXML {
 		catch(Exception e) { IterateBFS.errorOut(e); }
 		IterateBFS it = new IterateBFS(Inputs.inputXML);
 		it.startXMLBFS();
+		while(!it.bfsDone()) { 
+			Definition nextDef = it.bfsv.bfsVisit();
+			boolean useful = it.continueXMLBFS(nextDef);
+			if(useful && it.bfsv.parentIsReady3())
+				System.out.println(nextDef);
+		}
+		System.out.println("Done.");
 	}
 	
 }

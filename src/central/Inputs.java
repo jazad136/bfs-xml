@@ -114,6 +114,7 @@ public class Inputs {
 		toReturn = toReturn.substring(0, toReturn.lastIndexOf(File.separatorChar)+1);
 		return toReturn;
 	}
+	@SuppressWarnings("unchecked")
 	public static String[] resetAndParseArgs(String[] args) { 
 		found = new boolean[1];
 		argumentStrings = (LinkedList<String>[])new LinkedList[argName.size()];

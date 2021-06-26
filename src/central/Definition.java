@@ -50,5 +50,18 @@ public class Definition {
 	
 	public Node getNode() { return node; } 
 	public String toString() { return stringRep; }
-	public boolean isAdoptingDefinition() { return false; }  
+	public boolean isAdoptingDefinition() { return false; }
+	public Definition adopt(Definition child) { return this; } 
+	public boolean isEmpty() { return isEmpty; } 
+	public Definition respecify() {
+		if(hasNode) {  
+			switch(node.getNodeType()) { 
+				case Node.ELEMENT_NODE: 
+					return new ElementDefinition(node);
+				case Node.ATTRIBUTE_NODE:
+					return new AttributeDefinition(node);
+			}
+		}
+		return this;
+	}
 }

@@ -18,7 +18,6 @@
  *******************************************************************************/
 package central;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +31,9 @@ public class IterateBFS {
 	public BFSVisitor bfsv;
 	public Document xmlDoc;
 	static Definition lastSibling = Definition.emptyDef;
+	int nodes;
 	
-	public IterateBFS(Document xmlDoc) { 
-		this.xmlDoc = xmlDoc;
-	}
+	public IterateBFS(Document xmlDoc) { this.xmlDoc = xmlDoc; }
 	
 	
 	public static void errorOut(Exception e) { 
@@ -43,19 +41,90 @@ public class IterateBFS {
 		System.err.println(e.getLocalizedMessage());
 		System.err.println("at\t" + ErrorOut.someStackTrace(4, e));
 	}
+	
 	public void startXMLBFS() { 
+		allDefs = new ArrayList<>();
+		bfsv = new BFSVisitor(xmlDoc);
 	}
-	public void continueXMLBFS() { 
-		
+	
+	public Definition continueBFS(Definition nextDef) { 
+		if(nextDef.isEmpty) 
+			return Definition.emptyDef;
+		else if(xmlDoc.compareDocumentPosition(nextDef.getNode()) == 0) { 
+			allDefs.add(nextDef);
+			return Definition.emptyDef;
+		}
+		nodes++;
+		nextDef = nextDef.respecify();
+		allDefs.get(bfsv.parent).adopt(nextDef);
+		allDefs.add(nextDef);
+		return allDefs.get(bfsv.parent);
 	}
-	protected class BFSVisitor { 
+	
+	public boolean continueXMLBFS(Definition nextDef) { 
+		if(nextDef.isEmpty) 
+			return false;
+		else if(xmlDoc.compareDocumentPosition(nextDef.getNode()) == 0) { 
+			allDefs.add(nextDef);
+			return true;
+		}
+		nodes++;
+		nextDef = nextDef.respecify();
+		allDefs.get(bfsv.parent).adopt(nextDef);
+		allDefs.add(nextDef);
+		return true;
+	}
+	
+	public class BFSVisitor { 
 		Queue Q;
+		int lastParent;
 		int parent; 
-		public BFSVisitor(Document xmlDoc) { 
+		boolean newParent;
+		ArrayList<Definition> parents;
+		public BFSVisitor(Document xmlDoc) {
+			parents = new ArrayList<>();
+			Q = new Queue();
+			Q.enqueue(new Definition(xmlDoc));
+			Q.enqueue(IterateBFS.lastSibling);
+			lastParent = parent = -1;
+		}
+		
+		public boolean parentIsReadyOld() {return parent > 0 && allDefs.get(parent).isAdoptingDefinition(); }
+		public boolean parentIsReady2() {return parents.isEmpty() && parents.get(0).isAdoptingDefinition(); }
+		public boolean parentIsReady3() {return lastParent == parent; }
+		public Definition bfsVisit() {
+			lastParent = parent;			
+			while(!Q.isEmpty() && Q.first().isEmpty()) { 
+				parent++;
+				parents.remove(0);
+				Q.dequeue();
+			}
+			if(Q.isEmpty())
+				return new Definition("");
+			Definition next = Q.dequeue();
+			Q.enqueueAll(adjacent(next));
+			Q.enqueue(IterateBFS.lastSibling);
+			parents.add(next);
+			
+			return next;
 		}
 		
 		public boolean bfsDone() { return Q.isEmpty(); } 
 		
+		public List<Definition> adjacent(Definition parent) { 
+			ArrayList<Definition> toReturn = new ArrayList<>();
+			NodeList nl = parent.getNode().getChildNodes();
+			for(int i = 0; i < nl.getLength(); i++) 
+				toReturn.add(new Definition(nl.item(i)));
+			if(parent.getNode().hasAttributes()) { 
+				NamedNodeMap al = parent.getNode().getAttributes();
+				for(int i = 0; i < al.getLength(); i++) 
+					toReturn.add(new Definition(nl.item(i)));
+			}
+			return toReturn;
+		}
 	}
+	
+	public boolean bfsDone() { return bfsv.bfsDone(); }
 	
 }
