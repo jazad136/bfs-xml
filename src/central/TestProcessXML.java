@@ -18,20 +18,65 @@
  *******************************************************************************/
 package central;
 
+import org.w3c.dom.Document;
+
+/**
+ * Test code file for the TestProcessXML class. This class is used to test the processing of XML in 
+ * the bfs-xml project. 
+ * @author Jonathan A. Saddler 
+ */
 public class TestProcessXML {
 	
 	public static void main(String[] args) {
-		try { Inputs.resetAndParseArgs(args); } 
-		catch(Exception e) { IterateBFS.errorOut(e); }
-		IterateBFS it = new IterateBFS(Inputs.inputXML);
+		Document doc = Inputs.readXMLString(someTestXML());
+		testIteration(doc);
+	}
+	
+	public static void testIteration(Document doc) { 
+		IterateBFS it = new IterateBFS(doc);
 		it.startXMLBFS();
 		while(!it.bfsDone()) { 
 			Definition nextDef = it.bfsv.bfsVisit();
 			boolean useful = it.continueXMLBFS(nextDef);
-			if(useful && it.bfsv.parentIsReady3())
-				System.out.println(nextDef);
+			if(useful && it.bfsv.parentIsReady())
+				System.out.println(it.bfsv.readyParent());
 		}
 		System.out.println("Done.");
+	}
+	
+	public static void readArguments(String[] args) {
+		try { Inputs.resetAndParseArgs(args); } 
+		catch(Exception e) { IterateBFS.errorOut(e); }
+		testIteration(Inputs.inputXML);
+	}
+	
+	public static StringBuilder someTestXML() { 
+		StringBuilder sb = new StringBuilder();
+		sb.append("<note>");
+		sb.append("  <to>Tove</to>");
+		sb.append("  <from>Jani</from>");
+		sb.append("  <heading>Reminder</heading>");
+		sb.append("  <body>Don't forget me this weekend</body>");
+		sb.append("</note>");
+		return sb;
+	}
+	public static StringBuilder someTextXML2() { 
+		//https://www.w3schools.com/xml/schema_example.asp
+		StringBuilder sb = new StringBuilder();
+		sb.append("<orderperson>John Smith</orderperson>");
+		sb.append("<shipto>");
+		sb.append("  <name>Ola Nordman</name>");
+		sb.append("  <address>Reminder</address>");
+		sb.append("  <city>Don't forget me this weekend</city>");
+		sb.append("  <country>Norway</country>");
+		sb.append("</shipto>");
+		sb.append("<item>");
+		sb.append("  <title>Emptire Burlesque</title>");
+		sb.append("  <note>Special Edition</note>");
+		sb.append("  <quantity>1</quantity>");
+		sb.append("</item>");
+		sb.append("</note>");
+		return sb;
 	}
 	
 }

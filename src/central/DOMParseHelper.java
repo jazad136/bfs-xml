@@ -20,16 +20,46 @@ package central;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class DOMParseHelper {
+	
+	public static Document readXMLStringThrowExceptions(String xmlArg) 
+		throws ParserConfigurationException, SAXException, IOException { 
+		
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(false);
+		Document retDoc = null;
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		InputSource is = new InputSource(new StringReader(xmlArg));
+		retDoc = db.parse(is);
+		return retDoc;
+	}
+	
+	public static Document readXMLStringThrowRuntimeEx(String xmlArg) { 
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(false);
+		Document retDoc = null;
+		try { 
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			InputSource is = new InputSource(new StringReader(xmlArg));
+			retDoc = db.parse(is);
+		}
+		catch(ParserConfigurationException pce) { new RuntimeException(pce); } 
+		catch(SAXParseException spe) { throw new RuntimeException(spe); }
+		catch(SAXException sxe) { throw new RuntimeException(sxe); } 
+		catch(IOException ioe) { throw new RuntimeException(ioe); } 
+		return retDoc;
+	}
 	
 	public static Document readNormDocumentThrowRuntimeEx(File xmlIn) { 
 		Document retDoc = null;
@@ -38,7 +68,6 @@ public class DOMParseHelper {
 		try { 
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			retDoc = db.parse(xmlIn);
-			retDoc.normalizeDocument();
 		}
 		catch(ParserConfigurationException pce) { new RuntimeException(pce); } 
 		catch(SAXParseException spe) { throw new RuntimeException(spe); }
@@ -55,7 +84,6 @@ public class DOMParseHelper {
 		 
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		retDoc = db.parse(xmlIn);
-		retDoc.normalizeDocument();
 		
 		return retDoc;
 	}

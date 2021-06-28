@@ -25,48 +25,56 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
+/**
+ * Source code for the IterateBFS class. <br>
+ * This class when provided a w3c DOM document object, will allow the programmer to traverse
+ * an XML file and return subtree items of the root node in breadth-first search order. <br>
+ * <br>
+ * Steps to accomplish this include:<br>
+ * 1. Declaring a new IterateBFS object passing the Document as a parameter
+ * 2. Calling the startXMLBFS() method to create the necessary support data structures. 
+ * 3. Calling the continueBFS() method to iteratively return Definitions that contain XML Node objects
+ * from the XML document object model. 
+ * 
+ * @author Jonathan A. Saddler
+ *
+ */
 public class IterateBFS {
 	
-	public ArrayList<Definition> allDefs;
+	
+	private ArrayList<Definition> allDefs;
 	public BFSVisitor bfsv;
-	public Document xmlDoc;
-	static Definition lastSibling = Definition.emptyDef;
+	private Document xmlDoc;
+	public static Definition lastSibling = Definition.emptyDef;
 	int nodes;
 	
+	/** Constructor for the IterateBFS object. */
 	public IterateBFS(Document xmlDoc) { this.xmlDoc = xmlDoc; }
 	
 	
+	/** Print an error from a perceived exception within this project */
 	public static void errorOut(Exception e) { 
 		System.err.println(e.getClass().getSimpleName() + ":");
 		System.err.println(e.getLocalizedMessage());
 		System.err.println("at\t" + ErrorOut.someStackTrace(4, e));
 	}
 	
+	/** Start the XML BFS process by setting up the necessary support structures */
 	public void startXMLBFS() { 
 		allDefs = new ArrayList<>();
 		bfsv = new BFSVisitor(xmlDoc);
 	}
 	
-	public Definition continueBFS(Definition nextDef) { 
-		if(nextDef.isEmpty) 
-			return Definition.emptyDef;
-		else if(xmlDoc.compareDocumentPosition(nextDef.getNode()) == 0) { 
-			allDefs.add(nextDef);
-			return Definition.emptyDef;
-		}
-		nodes++;
-		nextDef = nextDef.respecify();
-		allDefs.get(bfsv.parent).adopt(nextDef);
-		allDefs.add(nextDef);
-		return allDefs.get(bfsv.parent);
-	}
-	
+	/** Return true if the definition passed in to this method is considered a method
+	 * in need of adoption from the tree. This method must be called on definitions returned
+	 * from {@link BFSVisitor##bfsVisit()} to help advance the iteration properly down 
+	 * the breadth first tree*/
 	public boolean continueXMLBFS(Definition nextDef) { 
 		if(nextDef.isEmpty) 
 			return false;
 		else if(xmlDoc.compareDocumentPosition(nextDef.getNode()) == 0) { 
 			allDefs.add(nextDef);
-			return true;
+			return false;
 		}
 		nodes++;
 		nextDef = nextDef.respecify();
@@ -75,11 +83,13 @@ public class IterateBFS {
 		return true;
 	}
 	
+	/** Source for the BFSVisitor internal class. */
 	public class BFSVisitor { 
 		Queue Q;
 		int lastParent;
 		int parent; 
 		boolean newParent;
+		int readyParent;
 		ArrayList<Definition> parents;
 		public BFSVisitor(Document xmlDoc) {
 			parents = new ArrayList<>();
@@ -87,25 +97,34 @@ public class IterateBFS {
 			Q.enqueue(new Definition(xmlDoc));
 			Q.enqueue(IterateBFS.lastSibling);
 			lastParent = parent = -1;
+			readyParent = -1;
 		}
 		
-		public boolean parentIsReadyOld() {return parent > 0 && allDefs.get(parent).isAdoptingDefinition(); }
+		public boolean parentIsReady() {return parent > 0 && allDefs.get(parent).isAdoptingDefinition(); }
 		public boolean parentIsReady2() {return parents.isEmpty() && parents.get(0).isAdoptingDefinition(); }
 		public boolean parentIsReady3() {return lastParent == parent; }
+		public Definition readyParent() { 
+			newParent = false;
+			return allDefs.get(parent); 
+		}
+		
 		public Definition bfsVisit() {
 			lastParent = parent;			
 			while(!Q.isEmpty() && Q.first().isEmpty()) { 
+				if(parentIsReady()) { 
+					newParent = true;
+					readyParent = parent;
+				}
 				parent++;
-				parents.remove(0);
 				Q.dequeue();
 			}
 			if(Q.isEmpty())
 				return new Definition("");
 			Definition next = Q.dequeue();
+			next = next.respecify();
 			Q.enqueueAll(adjacent(next));
 			Q.enqueue(IterateBFS.lastSibling);
 			parents.add(next);
-			
 			return next;
 		}
 		

@@ -80,12 +80,12 @@ public class Inputs {
 				}
 				catch(SAXParseException sxe) { 
 					throw new IllegalArgumentException(format("Arguments Parser: File specified to %s argument"
-							+ "\n\"%s\"\ndid not contain a recognized \'srcml\' XML document.\n%s",
+							+ "\n\"%s\"\ndid not contain a recognized XML document.\n%s",
 							target, inspectFile.getAbsoluteFile()), sxe);
 				}
 				catch(SAXException se) { 
 					throw new IllegalArgumentException(format("Arguments Parser: File specified to %s argument"
-							+ "\n\"%s\"\ndid not contain a recognized \'srcml\' XML document.\n%s",
+							+ "\n\"%s\"\ndid not contain a recognized XML document.\n%s",
 							target, inspectFile.getAbsoluteFile()), se);
 				}
 				catch(NoSuchElementException e) { 
@@ -97,7 +97,7 @@ public class Inputs {
 				}
 				catch(IOException xmle) {
 					throw new IllegalArgumentException(format("Arguments Parser: File specified to %s argument"
-							+ "\n\"%s\"\ndid not contain a recognized \'srcml\' XML document.\n%s",
+							+ "\n\"%s\"\ndid not contain a recognized XML document.\n%s",
 							target, inspectFile.getAbsoluteFile()), xmle);
 				}
 			}
@@ -124,6 +124,32 @@ public class Inputs {
 		return parseArgs(args);
 	}
 	
+	public static Document readXMLString(StringBuilder xmlString) { 
+		StringBuilder toRun = new StringBuilder(xmlString);
+		try {return DOMParseHelper.readXMLStringThrowExceptions(toRun.toString());}
+		catch(NoSuchElementException e) { 
+			throw new IllegalArgumentException(format("Arguments Parser: XML String argument cannot be empty"));
+		}
+		catch(ParserConfigurationException pce) { 
+			throw new IllegalArgumentException(format("Arguments Parser: Document Builder Problem: %s", pce.getLocalizedMessage()), pce);
+		}
+		catch(SAXParseException sxe) { 
+			throw new IllegalArgumentException("Arguments Parser: XML String specified "
+					+ "did not contain a recognized XML document.", sxe);
+		}
+		catch(SAXException se) { 
+			throw new IllegalArgumentException("Arguments Parser: XML String specified "
+					+ "did not contain a recognized XML document.", se);
+		}
+		catch (FileNotFoundException e) {
+			throw new IllegalArgumentException(format("Arguments Parser: XML String specified "
+					+ "did not contain a recognized XML document.", e));
+		}
+		catch(IOException xmle) {
+			throw new IllegalArgumentException("Arguments Parser: XML String specified "
+					+ "did not contain a recognized XML document.", xmle);
+		}
+	}
 	public static String checkAndSetConstraints(String target) { 
 		int argTag = argName.get(target);
 		if(found[argTag])
