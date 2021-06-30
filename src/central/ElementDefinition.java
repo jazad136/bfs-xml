@@ -38,6 +38,6 @@ public class ElementDefinition extends Definition {
 	/** 
 	 * The method that defines the string representation of this element. 
 	 */
-	public String toString() { return String.format("%s element [%s]", elementName, textContent); }
+	public String toString() { return String.format("%s element [%s]", elementName, textContent.replaceAll("\n", " ")); }
 	public boolean isAdoptingDefinition() {  return true;  }
 }
