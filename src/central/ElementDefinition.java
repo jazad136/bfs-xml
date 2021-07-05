@@ -3,9 +3,7 @@ package central;
 import org.w3c.dom.Node;
 
 public class ElementDefinition extends Definition {
-	/** The text content of the ElementDefinition: to be set after 
-	 *  the adoption process is complete. 
-	 */
+	/** The text content of the ElementDefinition: to be set after the adoption process is complete. */
 	String textContent;
 	/** The name of the element of the node passed to the constructor */
 	String elementName;
@@ -35,8 +33,12 @@ public class ElementDefinition extends Definition {
 		else if(otherDef.getNode().getNodeType() == Node.ELEMENT_NODE) 
 			textContent += String.format(" [%s]", otherDef.getNode().getNodeName()); 
 	}
-	/** 
-	 * The method that defines the string representation of this element. 
+	/** This method defines the string representation of this element definition.<br/> 
+	 *  Follows the format<br/>
+	 *  &lt;name_of_element&gt; element [&ltcontent_of_element&gt;]<br/>
+	 *  where content_of_element may contain one or more names of elements surrounded by brackets
+	 *  [] for complex XML elements or may contain just string text for simple elements. 
+	 *  or both for mixed elements. Newlines are replaced with space characters. 
 	 */
 	public String toString() { return String.format("%s element [%s]", elementName, textContent.replaceAll("\n", " ")); }
 	public boolean isAdoptingDefinition() {  return true;  }
