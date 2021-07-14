@@ -19,6 +19,7 @@
 package central;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -145,5 +146,8 @@ public class IterateBFS {
 	}
 	
 	public boolean bfsDone() { return bfsv.bfsDone(); }
+
+	public Definition bfsVisit() { return bfsv.bfsVisit(); }
+	public boolean lastSibling() { return bfsv.Q.isEmpty() || bfsv.Q.first().isEmpty; } 
 	
 }
