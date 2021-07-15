@@ -28,7 +28,7 @@ import org.w3c.dom.Document;
 public class TestProcessXML {
 	
 	public static void main(String[] args) {
-		Document doc = Inputs.readXMLString(someTestXML());
+		Document doc = Inputs.readXMLString(someTestXML2());
 		testIteration(doc);
 	}
 	
@@ -60,22 +60,23 @@ public class TestProcessXML {
 		sb.append("</note>");
 		return sb;
 	}
-	public static StringBuilder someTextXML2() { 
+	public static StringBuilder someTestXML2() { 
 		//https://www.w3schools.com/xml/schema_example.asp
 		StringBuilder sb = new StringBuilder();
-		sb.append("<orderperson>John Smith</orderperson>");
-		sb.append("<shipto>");
-		sb.append("  <name>Ola Nordman</name>");
-		sb.append("  <address>Reminder</address>");
-		sb.append("  <city>Don't forget me this weekend</city>");
-		sb.append("  <country>Norway</country>");
-		sb.append("</shipto>");
-		sb.append("<item>");
-		sb.append("  <title>Emptire Burlesque</title>");
-		sb.append("  <note>Special Edition</note>");
-		sb.append("  <quantity>1</quantity>");
-		sb.append("</item>");
-		sb.append("</note>");
+		sb.append("<shiporder>"); 							sb.append("\n");
+		sb.append("<orderperson>John Smith</orderperson>"); sb.append("\n");
+		sb.append("<shipto>"); 								sb.append("\n");
+		sb.append("  <name>Ola Nordman</name>"); 			sb.append("\n");
+		sb.append("  <address>Reminder</address>");			sb.append("\n");
+		sb.append("  <city>Don't forget me this weekend</city>"); sb.append("\n");
+		sb.append("  <country>Norway</country>");			sb.append("\n");
+		sb.append("</shipto>");								sb.append("\n");
+		sb.append("<item>");								sb.append("\n");
+		sb.append("  <title>Emptire Burlesque</title>");	sb.append("\n");
+		sb.append("  <note>Special Edition</note>");		sb.append("\n");
+		sb.append("  <quantity>1</quantity>");				sb.append("\n");
+		sb.append("</item>");								sb.append("\n");
+		sb.append("</shiporder>");							
 		return sb;
 	}
 	
