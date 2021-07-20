@@ -75,7 +75,7 @@ public class IterateBFS {
 			return false;
 		else if(xmlDoc.compareDocumentPosition(nextDef.getNode()) == 0) { 
 			allDefs.add(nextDef);
-			return false;
+			return true;
 		}
 		nodes++;
 		nextDef = nextDef.respecify();
@@ -87,7 +87,6 @@ public class IterateBFS {
 	/** Source for the BFSVisitor internal class. */
 	public class BFSVisitor { 
 		Queue Q;
-		int lastParent;
 		int parent; 
 		boolean newParent;
 		int readyParent;
@@ -97,20 +96,18 @@ public class IterateBFS {
 			Q = new Queue();
 			Q.enqueue(new Definition(xmlDoc));
 			Q.enqueue(IterateBFS.lastSibling);
-			lastParent = parent = -1;
+			parent = -1;
 			readyParent = -1;
 		}
 		
 		public boolean parentIsReady() {return parent > 0 && allDefs.get(parent).isAdoptingDefinition(); }
 		public boolean parentIsReady2() {return parents.isEmpty() && parents.get(0).isAdoptingDefinition(); }
-		public boolean parentIsReady3() {return lastParent == parent; }
 		public Definition readyParent() { 
 			newParent = false;
 			return allDefs.get(parent); 
 		}
 		
 		public Definition bfsVisit() {
-			lastParent = parent;			
 			while(!Q.isEmpty() && Q.first().isEmpty()) { 
 				if(parentIsReady()) { 
 					newParent = true;
@@ -143,11 +140,16 @@ public class IterateBFS {
 			}
 			return toReturn;
 		}
+		public Definition lastParent() { 
+			if(parent == -1) 
+				return new Definition("");
+			return allDefs.get(parent); 
+		} 
 	}
 	
 	public boolean bfsDone() { return bfsv.bfsDone(); }
 
 	public Definition bfsVisit() { return bfsv.bfsVisit(); }
 	public boolean lastSibling() { return bfsv.Q.isEmpty() || bfsv.Q.first().isEmpty; } 
-	
+	public Definition lastParent() { return bfsv.lastParent(); } 
 }
