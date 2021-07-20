@@ -1,4 +1,4 @@
 module com.jsaddlercs {
-	requires java.xml; 
+	requires transitive java.xml; 
 	exports central;
 }

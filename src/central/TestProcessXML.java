@@ -28,10 +28,25 @@ import org.w3c.dom.Document;
 public class TestProcessXML {
 	
 	public static void main(String[] args) {
-		Document doc = Inputs.readXMLString(someTestXML2());
-		testIteration(doc);
+		Document doc = Inputs.readXMLString(someTestXML());
+		testIteration2(doc);
 	}
 	
+	public static void testIteration2(Document doc) { 
+		XMLIterator it = new XMLIterator(doc);
+//		Definition parent = new Definition(doc.getDocumentElement());
+		Definition nextDef;
+		while(it.hasNext()) { 
+			nextDef = it.next();
+//			parent = it.lastSibling() ? parent : it.readyParent();
+			if(!nextDef.isEmpty && it.lastSibling()) {
+//			&& nextDef.getNode().compareDocumentPosition(doc) != 0) {  
+//				if(it.getParent().getNode().compareDocumentPosition(doc) != 0)
+					System.out.println(it.getParent()); 
+			}
+		}
+		System.out.println("Done.");
+	}
 	public static void testIteration(Document doc) { 
 		IterateBFS it = new IterateBFS(doc);
 		it.startXMLBFS();
@@ -67,14 +82,15 @@ public class TestProcessXML {
 		sb.append("<orderperson>John Smith</orderperson>"); sb.append("\n");
 		sb.append("<shipto>"); 								sb.append("\n");
 		sb.append("  <name>Ola Nordman</name>"); 			sb.append("\n");
-		sb.append("  <address>Reminder</address>");			sb.append("\n");
-		sb.append("  <city>Don't forget me this weekend</city>"); sb.append("\n");
+		sb.append("  <address>Langgt 23</address>");			sb.append("\n");
+		sb.append("  <city>4000 Stavenger</city>"); sb.append("\n");
 		sb.append("  <country>Norway</country>");			sb.append("\n");
 		sb.append("</shipto>");								sb.append("\n");
 		sb.append("<item>");								sb.append("\n");
 		sb.append("  <title>Emptire Burlesque</title>");	sb.append("\n");
 		sb.append("  <note>Special Edition</note>");		sb.append("\n");
 		sb.append("  <quantity>1</quantity>");				sb.append("\n");
+		sb.append("  <price>10.90</price>");				sb.append("\n");
 		sb.append("</item>");								sb.append("\n");
 		sb.append("</shiporder>");							
 		return sb;
