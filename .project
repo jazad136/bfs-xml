@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Steps - bfs-xml.txt</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Steps%20-%20bfs-xml.txt</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

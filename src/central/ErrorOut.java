@@ -22,9 +22,29 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class ErrorOut extends RuntimeException {
-
-	public ErrorOut(String message) { super(message); } 
-	public ErrorOut(Throwable cause, String message) { super(message, cause); }
+	public enum BFSVReason { NOINPUT , BADINPUT, MESSAGE, UNGIVEN };
+	public BFSVReason statedReason;
+	public String field;
+	public String found;
+	public String expected;
+	public ErrorOut(String message) { 
+		super(message); 
+		statedReason = BFSVReason.MESSAGE;
+	} 
+	public ErrorOut(Throwable cause, String message) { 
+		super(message, cause); 
+		statedReason = BFSVReason.MESSAGE;
+	}
+	public ErrorOut(BFSVReason reason, String field, String expected) { 
+		statedReason = reason; 
+		this.expected = expected;
+	}
+	public String getLocalizedMessage() { 
+		if(statedReason == BFSVReason.NOINPUT) {
+			return "In field: " + field + ", " + expected + " was expected, but no input was found."; 
+		}
+		return super.getLocalizedMessage();
+	}
 	
 	public static String someStackTrace(int num, Exception e) { 
 		return Arrays.stream(e.getStackTrace())
