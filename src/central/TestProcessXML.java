@@ -28,10 +28,20 @@ import org.w3c.dom.Document;
 public class TestProcessXML {
 	
 	public static void main(String[] args) {
-		Document doc = Inputs.readXMLString(someTestXML());
-		testIteration2(doc);
+		Document doc = Inputs.readXMLString(someTestXML2());
+		testIteration3(doc);
 	}
 	
+	public static void testIteration3(Document doc) {
+		XMLIterable els = new XMLIterable(doc);
+		XMLIterator it = els.iter;
+		for(Definition def : els) { 
+			if(it.fullyExploredParent()) {
+				Definition parent = it.getParent();
+				System.out.println(parent);
+			}
+		}
+	}
 	public static void testIteration2(Document doc) { 
 		XMLIterator it = new XMLIterator(doc);
 //		Definition parent = new Definition(doc.getDocumentElement());
@@ -39,7 +49,8 @@ public class TestProcessXML {
 		while(it.hasNext()) { 
 			nextDef = it.next();
 //			parent = it.lastSibling() ? parent : it.readyParent();
-			if(!nextDef.isEmpty && it.lastSibling()) {
+//			if(!nextDef.isEmpty && it.lastSibling()) {
+			if(it.fullyExploredParent()) { 
 //			&& nextDef.getNode().compareDocumentPosition(doc) != 0) {  
 //				if(it.getParent().getNode().compareDocumentPosition(doc) != 0)
 					System.out.println(it.getParent()); 
