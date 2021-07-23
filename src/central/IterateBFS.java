@@ -26,6 +26,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
+
 /**
  * Source code for the IterateBFS class. <br>
  * This class when provided a w3c DOM document object, will allow the programmer to traverse
@@ -140,6 +141,7 @@ public class IterateBFS {
 			}
 			return toReturn;
 		}
+		public boolean hasLastParent() { return parent != -1 && parent != allDefs.size(); } 
 		public Definition lastParent() { 
 			if(parent == -1) 
 				return new Definition("");
@@ -151,5 +153,6 @@ public class IterateBFS {
 
 	public Definition bfsVisit() { return bfsv.bfsVisit(); }
 	public boolean lastSibling() { return bfsv.Q.isEmpty() || bfsv.Q.first().isEmpty; } 
-	public Definition lastParent() { return bfsv.lastParent(); } 
+	public Definition lastParent() { return bfsv.lastParent(); }
+	public boolean hasLastParent() { return bfsv.hasLastParent(); } 
 }

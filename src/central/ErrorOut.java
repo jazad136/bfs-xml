@@ -22,25 +22,25 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class ErrorOut extends RuntimeException {
-	public enum MemVReason { NOINPUT , BADINPUT, MESSAGE, UNGIVEN };
-	public MemVReason statedReason;
+	public enum BFSVReason { NOINPUT , BADINPUT, MESSAGE, UNGIVEN };
+	public BFSVReason statedReason;
 	public String field;
 	public String found;
 	public String expected;
 	public ErrorOut(String message) { 
 		super(message); 
-		statedReason = MemVReason.MESSAGE;
+		statedReason = BFSVReason.MESSAGE;
 	} 
 	public ErrorOut(Throwable cause, String message) { 
 		super(message, cause); 
-		statedReason = MemVReason.MESSAGE;
+		statedReason = BFSVReason.MESSAGE;
 	}
-	public ErrorOut(MemVReason reason, String field, String expected) { 
+	public ErrorOut(BFSVReason reason, String field, String expected) { 
 		statedReason = reason; 
 		this.expected = expected;
 	}
 	public String getLocalizedMessage() { 
-		if(statedReason == MemVReason.NOINPUT) {
+		if(statedReason == BFSVReason.NOINPUT) {
 			return "In field: " + field + ", " + expected + " was expected, but no input was found."; 
 		}
 		return super.getLocalizedMessage();
