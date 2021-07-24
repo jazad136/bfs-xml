@@ -50,18 +50,25 @@ There are two big use cases. The first use case comes from just iterating throug
 ```
 In this test we use a plan that waits until all branches under an XML element get visited before printing out the values.
 We use the *XMLIterator* to accomplish this process, which has methods like *fullyExploredParent()* that allow us to check for this condition. 
-After downloading and importing our packages yourself you can run code like this. 
+After downloading and importing our packages yourself you can run code like this. If els is an instance of XMLIterable created from a document... 
 ```
+XMLIterator it = els.iter;
 for(Definition def : els) { 
-			if(it.fullyExploredParent()) {
-				Definition parent = it.getParent();
-				System.out.println(parent);
-			}
-		}
+  if(it.fullyExploredParent()) {
+    Definition parent = it.getParent();
+    System.out.println(parent);
+  }
+}
 ```
 You'll get the output for the test to look like this after running the command above (make sure to have java installed): 
 ![BFSXML Test Output](https://github.com/jazad136/bfs-xml/blob/main/imagehistory/BFSXMLTestOutput.png)
 
+The second use case is to simply iterate through all the elements, and print out every element, attribute, and text definition you see. 
+```
+for(Definition def : els) { 
+  System.out.println(def);
+}
+```
 ## Intentional Design Decisions
 
 BFS-XML is a tool created by a Java developer with a desire to learn deep control of XML API's deep enough to circumvent *all* major Java dependencies to parse Java XML input arguments. We are proud enough of our product to present the tool as a free open source tool that other developers can modify for their own use. 
