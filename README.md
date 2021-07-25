@@ -4,6 +4,18 @@ by Jonathan A. Saddler
 
 maintainer email: jsaddlerecu@gmail.com
 
+# News
+Hey, a release was expected Friday, July 23, but it was delayed due to unexpected release preparation difficulties. 
+So a reasonable way to make up for it is to release today, Sunday, July 25 instead. 
+In addition, some additional reasons to use the product will be added: 
+* I don't know of any reasons why Java 8 can't be supported. So you will be able to use Java 8. 
+* I don't know of any reasons why Java 11 can't be supported. So you will be able to use Java 11. 
+* Why not make it easiest to use the product by making a JAR file so it can be run easily? 
+
+Jar files for Java 8, 11, and 13 will be provided on the release page. They are easy to make. 
+
+July 25th everyone. 
+
 ## Why Use BFS-XML
 Reading structured inputs in an object oriented programming languages can be hard. For XML, there can be lots of legwork involved. 
 
