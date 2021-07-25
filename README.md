@@ -4,6 +4,18 @@ by Jonathan A. Saddler
 
 maintainer email: jsaddlerecu@gmail.com
 
+# News
+Hey, a release was expected Friday, July 23, but it was delayed due to unexpected release preparation difficulties. 
+So a reasonable way to make up for it is to release today, Sunday, July 25 instead. 
+In addition, some additional reasons to use the product will be added: 
+* I don't know of any reasons why Java 8 can't be supported. So you will be able to use Java 8. 
+* I don't know of any reasons why Java 11 can't be supported. So you will be able to use Java 11. 
+* Why not make it easiest to use the product by making a JAR file so it can be run easily? 
+
+Jar files for Java 8, 11, and 13 will be provided on the release page. They are easy to make. 
+
+July 25th everyone. 
+
 ## Why Use BFS-XML
 Reading structured inputs in an object oriented programming languages can be hard. For XML, there can be lots of legwork involved. 
 
@@ -50,18 +62,25 @@ There are two big use cases. The first use case comes from just iterating throug
 ```
 In this test we use a plan that waits until all branches under an XML element get visited before printing out the values.
 We use the *XMLIterator* to accomplish this process, which has methods like *fullyExploredParent()* that allow us to check for this condition. 
-After downloading and importing our packages yourself you can run code like this. 
+After downloading and importing our packages yourself you can run code like this. If els is an instance of XMLIterable created from a document... 
 ```
+XMLIterator it = els.iter;
 for(Definition def : els) { 
-			if(it.fullyExploredParent()) {
-				Definition parent = it.getParent();
-				System.out.println(parent);
-			}
-		}
+  if(it.fullyExploredParent()) {
+    Definition parent = it.getParent();
+    System.out.println(parent);
+  }
+}
 ```
 You'll get the output for the test to look like this after running the command above (make sure to have java installed): 
 ![BFSXML Test Output](https://github.com/jazad136/bfs-xml/blob/main/imagehistory/BFSXMLTestOutput.png)
 
+The second use case is to simply iterate through all the elements, and print out every element, attribute, and text definition you see. 
+```
+for(Definition def : els) { 
+  System.out.println(def);
+}
+```
 ## Intentional Design Decisions
 
 BFS-XML is a tool created by a Java developer with a desire to learn deep control of XML API's deep enough to circumvent *all* major Java dependencies to parse Java XML input arguments. We are proud enough of our product to present the tool as a free open source tool that other developers can modify for their own use. 
