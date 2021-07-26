@@ -56,7 +56,7 @@ public class FilePreparation {
 		return addSeparator(newOutputPath) + inputFilename + extension;
 	}
 	public static String addSeparator(String somePath) { 
-		if(!somePath.isBlank() && !somePath.endsWith(File.separator)) 
+		if(!somePath.isEmpty() && !somePath.endsWith(File.separator)) 
 			return somePath + File.separator;
 		return somePath;
 	}
