@@ -33,8 +33,10 @@ We wrote our library with Java 13 in mind, and are confident that our solution c
 ![CurrentLinesOfCode](https://github.com/jazad136/bfs-xml/blob/main/imagehistory/Jul22_2021_status.bmp)
 
 ## How to Use
-First comes installing and using the software. 
-To install without the use of maven or a jar file, run the command: `javac -d bin --module-path src src/central/*.java`
+First comes just running the software. 
+To make the process easy, you can use java -jar bfm.jar if you have Java version 13 installed, or bfm-jre11.jar or bfm-jre8.jar if you are using Java version 11 installed or Java version 8.
+
+To run without the use of Maven or a jar file, run the command: `javac -d bin --module-path src src/central/*.java`
 at a command line prompt open to the root of the directory you've extracted all files from this repository (where you can see the directory named src)
 
 After compiling all the files, there is a test embeeded in the code in TestProcessXML.class, that will run without any file dependencies.
