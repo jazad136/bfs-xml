@@ -43,7 +43,7 @@ public class Definition {
 		stringRep = defString;
 		node = null;
 		hasNode = false;
-		isEmpty = defString.isBlank();
+		isEmpty = defString.isEmpty();
 	}
 	/** Constructs a definition based on a org.w3c.dom.Node object
 	 *  referencing a Node used in an XML document.

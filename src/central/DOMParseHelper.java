@@ -63,7 +63,7 @@ public class DOMParseHelper {
 	
 	public static Document readNormDocumentThrowRuntimeEx(File xmlIn) { 
 		Document retDoc = null;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newDefaultInstance();
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(false);
 		try { 
 			DocumentBuilder db = dbf.newDocumentBuilder();
@@ -79,7 +79,7 @@ public class DOMParseHelper {
 		throws ParserConfigurationException, SAXException, IOException { 
 		
 		Document retDoc = null;
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newDefaultInstance();
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(false);
 		 
 		DocumentBuilder db = dbf.newDocumentBuilder();
