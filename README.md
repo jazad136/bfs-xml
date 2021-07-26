@@ -5,16 +5,13 @@ by Jonathan A. Saddler
 maintainer email: jsaddlerecu@gmail.com
 
 # News
-Hey, a release was expected Friday, July 23, but it was delayed due to unexpected release preparation difficulties. 
-So a reasonable way to make up for it is to release today, Sunday, July 25 instead. 
-In addition, some additional reasons to use the product will be added: 
-* I don't know of any reasons why Java 8 can't be supported. So you will be able to use Java 8. 
-* I don't know of any reasons why Java 11 can't be supported. So you will be able to use Java 11. 
+Hey new release today, morning of the 26th. Here are the notes: 
+* I don't know of any reasons why Java 8 can't be supported. So you can now to use Java 8 to run this simple program. 
+* I don't know of any reasons why Java 11 can't be supported. So you will be able to use Java 11 to run this simple program. 
 * Why not make it easiest to use the product by making a JAR file so it can be run easily? 
 
-Jar files for Java 8, 11, and 13 will be provided on the release page. They are easy to make. 
-
-July 25th everyone. 
+Jar files for Java 8, 11, and 13 will be provided on the "Releases" page linked to near the top half of my project repository page for bfs-xml page. 
+Reach that page [here](https://github.com/jazad136/bfs-xml/releases/).
 
 ## Why Use BFS-XML
 Reading structured inputs in an object oriented programming languages can be hard. For XML, there can be lots of legwork involved. 
@@ -34,7 +31,11 @@ We wrote our library with Java 13 in mind, and are confident that our solution c
 
 ## How to Use
 First comes just running the software. 
-To make the process easy, you can use java -jar bfm.jar if you have Java version 13 installed, or bfm-jre11.jar or bfm-jre8.jar if you are using Java version 11 installed or Java version 8.
+To make the process easy, you can use the command
+
+```java -jar bfm.jar``` 
+
+if you have Java version 13 installed, replacing *bfm.jar* with either of the other two files *bfm-jre11.jar* or *bfm-jre8.jar* if you are using Java version 11 installed or Java version 8.
 
 To run without the use of Maven or a jar file, run the command: `javac -d bin --module-path src src/central/*.java`
 at a command line prompt open to the root of the directory you've extracted all files from this repository (where you can see the directory named src)
